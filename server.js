@@ -3,6 +3,7 @@
 var _ = require('underscore');
 var fs = require('fs');
 var http = require('http');
+var path = require('path');
 var connect = require('connect');
 var program = require('commander');
 var compression = require('compression');
@@ -20,8 +21,10 @@ program
 
 program.parse(process.argv);
 
+
 var config = program.opts();
-var middleware = config.middleware && fs.existsSync(config.middleware) && require(config.middleware);
+var pathToModule = path.resolve(config.middleware);
+var middleware = config.middleware && fs.existsSync(pathToModule) && require(pathToModule);
 
 var app = connect();
 var server = null;
